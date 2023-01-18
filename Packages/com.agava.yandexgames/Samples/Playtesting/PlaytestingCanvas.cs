@@ -135,5 +135,15 @@ namespace Agava.YandexGames.Samples
         {
             Debug.Log($"Environment = {JsonUtility.ToJson(YandexGamesSdk.Environment)}");
         }
+
+        public void InitIAP()
+        {
+            YandexGames.InAppPurchases.InitPayments();
+        }
+
+        public void TestIAP()
+        {
+            YandexGames.InAppPurchases.BuyItem("test");
+        }
     }
 }

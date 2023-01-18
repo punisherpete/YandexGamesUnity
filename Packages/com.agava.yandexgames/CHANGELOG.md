@@ -3,7 +3,12 @@ All notable changes to this project will be documented in this file.
   
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),  
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).  
-  
+
+## [10.1.0] - 2023-18-01
+### Added
+- InAppPurchases.InitPayments - method to init Yandex IAP
+- InAppPurchases.BuyItem(itemID, OnRewardedCallback, OnPaymentsFailedCallback) - method to perform IAP via Yandex.Games
+
 ## [10.0.0] - 2022-08-10  
 ### Added  
 - YandexGamesSdk.Initialize() now has onSuccessCallback and returns a coroutine waiting for initialization to finish.  

@@ -9,6 +9,8 @@ const library = {
 
     sdk: undefined,
 
+    payments: undefined,
+
     leaderboard: undefined,
 
     playerAccount: undefined,
@@ -319,8 +321,25 @@ const library = {
       stringToUTF8(string, stringBufferPtr, stringBufferSize);
       return stringBufferPtr;
     },
-  },
 
+    initPayments: function (onSuccessCallback, onErrorCallback) {
+      yandexGames.sdk.getPayments().then(_payments => {
+        yandexGames.payments = _payments;
+        dynCall('v', onSuccessCallback);
+      }).catch(err => {
+        dynCall('v', onErrorCallback);
+      })
+    },
+
+    yandexShowOrderBox: function (id, onSuccessCallback, onErrorCallback) {
+      yandexGames.payments.purchase(UTF8ToString(id)).then(purchase => {
+        dynCall('v', onSuccessCallback);
+      }).catch(err => {
+        dynCall('v', onErrorCallback);
+        console.log(err);
+      })
+    },
+  },
 
   // External C# calls.
 
@@ -421,6 +440,18 @@ const library = {
     const leaderboardName = UTF8ToString(leaderboardNamePtr);
     yandexGames.leaderboardGetPlayerEntry(leaderboardName, successCallbackPtr, errorCallbackPtr);
   },
+
+  InitializePayments: function (onSuccessCallback, onErrorCallback) {
+    yandexGames.throwIfSdkNotInitialized();
+
+    yandexGames.initPayments(onSuccessCallback, onErrorCallback);
+  },
+
+  YandexShowOrderBox: function (id, onSuccessCallback, onErrorCallback) {
+    yandexGames.throwIfSdkNotInitialized();
+
+    yandexGames.yandexShowOrderBox(id, onSuccessCallback, onErrorCallback);
+  } 
 }
 
 autoAddDeps(library, '$yandexGames');
